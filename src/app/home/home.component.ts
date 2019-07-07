@@ -25,13 +25,18 @@ export class HomeComponent implements OnInit {
       let count = 0;
       setInterval(() => {
         observer.next(count);
+        if (count > 3) {
+          observer.error(new Error('Count is greater than 3!'));
+        }
         count++;
       }, 1000);
     });
 
-    this.firstObsSubscription = customObsInterval.subscribe(count => {
-      console.log(count);
-      this.count = count;
+    this.firstObsSubscription = customObsInterval.subscribe(next => {
+      console.log(next);
+      this.count = next;
+    }, error => {
+      console.log(error);
     });
   }
 
